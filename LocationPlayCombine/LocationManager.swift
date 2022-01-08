@@ -9,6 +9,57 @@ import Foundation
 import CoreLocation
 import Combine
 
+public protocol CLLocationManagerCombineDelegate: CLLocationManagerDelegate {
+  var authorizationPublisher: AnyPublisher<CLAuthorizationStatus, Never> { get }
+  var locationPublisher: AnyPublisher<[CLLocation], Never> { get }
+  // func headingPublisher() -> AnyPublisher<CLHeading?, Never>
+  // func errorPublisher() -> AnyPublisher<Error?, Never>
+}
+
+public class CLLocationManagerPublicist: NSObject, CLLocationManagerCombineDelegate {
+  let authorizationSubject = PassthroughSubject<CLAuthorizationStatus, Never>()
+
+  let locationSubject = PassthroughSubject<[CLLocation], Never>()
+  
+  let errorSubject = PassthroughSubject<Error, Never>()
+
+  public let authorizationPublisher: AnyPublisher<CLAuthorizationStatus, Never>
+
+  public let locationPublisher: AnyPublisher<[CLLocation], Never>
+  
+  public let errorPublisher: AnyPublisher<Error, Never>
+  
+  public let manager : CLLocationManager
+
+  public init(manager : CLLocationManager) {
+    self.manager = manager
+    
+    authorizationPublisher = Just(.notDetermined)
+      .merge(with:
+        authorizationSubject
+      ).eraseToAnyPublisher()
+
+    locationPublisher = locationSubject.eraseToAnyPublisher()
+    errorPublisher = errorSubject.eraseToAnyPublisher()
+    super.init()
+    
+    self.manager.delegate = self
+    self.manager.startUpdatingLocation()
+  }
+
+  public func locationManager(_: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    locationSubject.send(locations)
+  }
+
+  public func locationManager(_: CLLocationManager, didFailWithError error: Error) {
+    self.errorSubject.send(error)
+  }
+
+  public func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+    authorizationSubject.send(manager.authorizationStatus)
+  }
+}
+
 extension Publisher {
   func lastItemsWith(count: Int) -> Publishers.Filter<Publishers.Scan<Self, [Output]>> {
     self.scan([]) {
@@ -79,47 +130,47 @@ protocol LocationManager {
   func publisherForLocationUpdates() throws -> AnyPublisher<CLLocation,Never>
 }
 
-extension CLLocationManager {
-  
-}
-class CoreLocationManager : NSObject, ObservableObject, CLLocationManagerDelegate, LocationManager {
-  var managerResult : Result<CLLocationManager,LocationManagerError>
-  @Published var authorizationStatus : CLAuthorizationStatus?
+
+
+class CoreLocationManager : ObservableObject, LocationManager {
+  var managerResult : Result<CLLocationManagerCombineDelegate,LocationManagerError>
+  @Published var authorizationStatus : CLAuthorizationStatus = .notDetermined
   @Published var locationFailure: Error?
-  @Published var lastLocations: [CLLocation]?
   @Published var lastLocation: CLLocation?
+  
   var cancellables = [AnyCancellable]()
   
-  static func createManager () -> Result<CLLocationManager,LocationManagerError> {
+  static func createManager () -> Result<CLLocationManagerCombineDelegate,LocationManagerError> {
     let manager = CLLocationManager()
     if let reason = LocationManagerFailureReason(basedOnManager: manager) {
       return .failure(.failure( reason))
     } else {
-      return .success(manager)
+      manager.requestWhenInUseAuthorization()
+      return .success(CLLocationManagerPublicist(manager: manager))
     }
   }
   
-  override init() {
+  init() {
     let managerResult = Self.createManager()
-    let manager : CLLocationManager?
-    if case let .success(pendingAuthorizationManager) = managerResult {
-      pendingAuthorizationManager.requestWhenInUseAuthorization()
-      manager = pendingAuthorizationManager
-    } else {
-      manager = nil
-    }
     self.managerResult = managerResult
-    super.init()
-    guard let manager = manager else {
+    guard let publicist = try? managerResult.get() else {
       return
     }
-    manager.delegate = self
     
-    self.$authorizationStatus.lastItemsWith(count: 2).map{($0[0], $0[1])}.sink(receiveValue: self.onAuthorizationStatusChange(from:to:)).store(in: &self.cancellables)
+    let authPub = publicist.authorizationPublisher.share()
+    authPub.assign(to: &$authorizationStatus)
+    authPub.lastItemsWith(count: 2).map{($0[0], $0[1])}.sink(receiveValue: self.onAuthorizationStatusChange(from:to:)).store(in: &self.cancellables)
     
-    self.$lastLocations.compactMap{$0}.flatMap{
-      $0.publisher
-    }.map{$0 as CLLocation?}.assign(to: &self.$lastLocation)
+    publicist.locationPublisher
+          // convert the array of CLLocation into a Publisher itself
+          .flatMap(Publishers.Sequence.init(sequence:))
+          // in order to match the property map to Optional
+          .map { $0 as CLLocation? }
+          // since this is used in the UI,
+          //  it needs to be on the main DispatchQueue
+          .receive(on: DispatchQueue.main)
+          // store the value in the location property
+          .assign(to: &$lastLocation)
   }
   
   func onAuthorizationStatusChange(from oldStatus: CLAuthorizationStatus?, to newStatus: CLAuthorizationStatus?) {
@@ -135,21 +186,21 @@ class CoreLocationManager : NSObject, ObservableObject, CLLocationManagerDelegat
       self.managerResult = Self.createManager()
     }
   }
-  
-  func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-    self.locationFailure = error
-  }
-  
-  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    self.lastLocations = locations
-  }
-  
-  func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-    self.authorizationStatus = manager.authorizationStatus
-  }
+//
+//  func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+//    self.locationFailure = error
+//  }
+//
+//  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//    self.lastLocations = locations
+//  }
+//
+//  func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+//    self.authorizationStatus = manager.authorizationStatus
+//  }
   
   func publisherForLocationUpdates() throws -> AnyPublisher<CLLocation, Never> {
-    return self.$lastLocation.compactMap{$0}
+    return self.$lastLocation.compactMap{$0}.eraseToAnyPublisher()
   }
   
   
