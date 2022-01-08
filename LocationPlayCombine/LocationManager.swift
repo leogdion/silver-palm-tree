@@ -9,6 +9,13 @@ import Foundation
 import CoreLocation
 import Combine
 
+extension Publisher {
+  func lastItemsWith(count: Int) -> Publishers.Filter<Publishers.Scan<Self, [Output]>> {
+    self.scan([]) {
+      return $0.suffix(count - 1) + [$1]
+    }.filter{ $0.count == count }
+  }
+}
 enum SimpleAuthorizationStatus {
   case allowed
   case denied
@@ -79,7 +86,9 @@ class CoreLocationManager : NSObject, ObservableObject, CLLocationManagerDelegat
   var managerResult : Result<CLLocationManager,LocationManagerError>
   @Published var authorizationStatus : CLAuthorizationStatus?
   @Published var locationFailure: Error?
+  @Published var lastLocations: [CLLocation]?
   @Published var lastLocation: CLLocation?
+  var cancellables = [AnyCancellable]()
   
   static func createManager () -> Result<CLLocationManager,LocationManagerError> {
     let manager = CLLocationManager()
@@ -89,6 +98,7 @@ class CoreLocationManager : NSObject, ObservableObject, CLLocationManagerDelegat
       return .success(manager)
     }
   }
+  
   override init() {
     let managerResult = Self.createManager()
     let manager : CLLocationManager?
@@ -104,6 +114,26 @@ class CoreLocationManager : NSObject, ObservableObject, CLLocationManagerDelegat
       return
     }
     manager.delegate = self
+    
+    self.$authorizationStatus.lastItemsWith(count: 2).map{($0[0], $0[1])}.sink(receiveValue: self.onAuthorizationStatusChange(from:to:)).store(in: &self.cancellables)
+    
+    self.$lastLocations.compactMap{$0}.flatMap{
+      $0.publisher
+    }.map{$0 as CLLocation?}.assign(to: &self.$lastLocation)
+  }
+  
+  func onAuthorizationStatusChange(from oldStatus: CLAuthorizationStatus?, to newStatus: CLAuthorizationStatus?) {
+    let old = oldStatus?.simplifiedStatus ?? .unknown
+    let new = newStatus?.simplifiedStatus ?? .unknown
+    
+    switch (old == new, old, new) {
+    case (true, _, _):
+      return
+    case (false, _, .unknown):
+      return
+    case (false, _, _):
+      self.managerResult = Self.createManager()
+    }
   }
   
   func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -111,21 +141,15 @@ class CoreLocationManager : NSObject, ObservableObject, CLLocationManagerDelegat
   }
   
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    locations.publisher.buffer(size: 1, prefetch: .keepFull, whenFull: .dropOldest).last().sink { location in
-      self.lastLocation = location
-    }
+    self.lastLocations = locations
   }
   
   func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-    let newAuthStatus = manager.authorizationStatus
-    let oldAuthStatus = self.authorizationStatus
+    self.authorizationStatus = manager.authorizationStatus
   }
   
-  
-  
   func publisherForLocationUpdates() throws -> AnyPublisher<CLLocation, Never> {
-    
-    return Just(CLLocation(latitude: 20, longitude: 20)).eraseToAnyPublisher()
+    return self.$lastLocation.compactMap{$0}
   }
   
   
