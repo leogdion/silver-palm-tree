@@ -25,18 +25,24 @@ extension CLAuthorizationStatus: CustomStringConvertible {
     }
   }
 }
-struct ContentView: View {
-  @ObservedObject var object  = CoreLocationManager()
+struct ContentView<LocationManagerType : ObservableLocationManager>: View {
+  @ObservedObject var object : LocationManagerType
   
     var body: some View {
       VStack{
         Text(self.object.authorizationStatus.description)
         Text(self.object.lastLocation?.description ?? "")
-        Text(self.object.locationFailure?.localizedDescription ?? "")
+        Text(self.object.lastError?.localizedDescription ?? "")
       }
         
             .padding()
     }
+}
+
+extension ContentView {
+  init() where LocationManagerType == CoreLocationManager {
+    self.init(object: CoreLocationManager())
+  }
 }
 
 struct ContentView_Previews: PreviewProvider {

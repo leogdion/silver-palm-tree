@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B3C0F01C278A272100E6E1CA /* LocationManagerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C0F014278A272100E6E1CA /* LocationManagerError.swift */; };
+		B3C0F01D278A272100E6E1CA /* CLLocationManagerPublicist.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C0F015278A272100E6E1CA /* CLLocationManagerPublicist.swift */; };
+		B3C0F01E278A272100E6E1CA /* CLAuthorizationStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C0F016278A272100E6E1CA /* CLAuthorizationStatus.swift */; };
+		B3C0F01F278A272100E6E1CA /* CLLocationManagerCombineDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C0F017278A272100E6E1CA /* CLLocationManagerCombineDelegate.swift */; };
+		B3C0F020278A272100E6E1CA /* CoreLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C0F018278A272100E6E1CA /* CoreLocationManager.swift */; };
+		B3C0F021278A272100E6E1CA /* Publisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C0F019278A272100E6E1CA /* Publisher.swift */; };
+		B3C0F022278A272100E6E1CA /* LocationManagerFailureReason.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C0F01A278A272100E6E1CA /* LocationManagerFailureReason.swift */; };
 		B3CDC4162788E81700BD6AC5 /* LocationPlayCombineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CDC4152788E81700BD6AC5 /* LocationPlayCombineApp.swift */; };
 		B3CDC4182788E81700BD6AC5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CDC4172788E81700BD6AC5 /* ContentView.swift */; };
 		B3CDC41A2788E81800BD6AC5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3CDC4192788E81800BD6AC5 /* Assets.xcassets */; };
@@ -15,6 +22,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B3C0F014278A272100E6E1CA /* LocationManagerError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManagerError.swift; sourceTree = "<group>"; };
+		B3C0F015278A272100E6E1CA /* CLLocationManagerPublicist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CLLocationManagerPublicist.swift; sourceTree = "<group>"; };
+		B3C0F016278A272100E6E1CA /* CLAuthorizationStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CLAuthorizationStatus.swift; sourceTree = "<group>"; };
+		B3C0F017278A272100E6E1CA /* CLLocationManagerCombineDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CLLocationManagerCombineDelegate.swift; sourceTree = "<group>"; };
+		B3C0F018278A272100E6E1CA /* CoreLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreLocationManager.swift; sourceTree = "<group>"; };
+		B3C0F019278A272100E6E1CA /* Publisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Publisher.swift; sourceTree = "<group>"; };
+		B3C0F01A278A272100E6E1CA /* LocationManagerFailureReason.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManagerFailureReason.swift; sourceTree = "<group>"; };
 		B3CDC4122788E81700BD6AC5 /* LocationPlayCombine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LocationPlayCombine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3CDC4152788E81700BD6AC5 /* LocationPlayCombineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPlayCombineApp.swift; sourceTree = "<group>"; };
 		B3CDC4172788E81700BD6AC5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -54,6 +68,13 @@
 			isa = PBXGroup;
 			children = (
 				B3CDC4152788E81700BD6AC5 /* LocationPlayCombineApp.swift */,
+				B3C0F016278A272100E6E1CA /* CLAuthorizationStatus.swift */,
+				B3C0F017278A272100E6E1CA /* CLLocationManagerCombineDelegate.swift */,
+				B3C0F015278A272100E6E1CA /* CLLocationManagerPublicist.swift */,
+				B3C0F018278A272100E6E1CA /* CoreLocationManager.swift */,
+				B3C0F014278A272100E6E1CA /* LocationManagerError.swift */,
+				B3C0F01A278A272100E6E1CA /* LocationManagerFailureReason.swift */,
+				B3C0F019278A272100E6E1CA /* Publisher.swift */,
 				B3CDC4172788E81700BD6AC5 /* ContentView.swift */,
 				B3CDC4192788E81800BD6AC5 /* Assets.xcassets */,
 				B3CDC41B2788E81800BD6AC5 /* Preview Content */,
@@ -140,9 +161,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3C0F021278A272100E6E1CA /* Publisher.swift in Sources */,
+				B3C0F022278A272100E6E1CA /* LocationManagerFailureReason.swift in Sources */,
 				B3CDC4182788E81700BD6AC5 /* ContentView.swift in Sources */,
+				B3C0F020278A272100E6E1CA /* CoreLocationManager.swift in Sources */,
+				B3C0F01F278A272100E6E1CA /* CLLocationManagerCombineDelegate.swift in Sources */,
 				B3CDC4162788E81700BD6AC5 /* LocationPlayCombineApp.swift in Sources */,
 				B3CDC4242788E87A00BD6AC5 /* LocationManager.swift in Sources */,
+				B3C0F01D278A272100E6E1CA /* CLLocationManagerPublicist.swift in Sources */,
+				B3C0F01E278A272100E6E1CA /* CLAuthorizationStatus.swift in Sources */,
+				B3C0F01C278A272100E6E1CA /* LocationManagerError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
