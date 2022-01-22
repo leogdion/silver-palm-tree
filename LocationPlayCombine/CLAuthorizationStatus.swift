@@ -1,22 +1,15 @@
 import CoreLocation
 
-enum SimpleAuthorizationStatus {
-  case allowed
-  case denied
-  case unknown
-}
-
 extension CLAuthorizationStatus {
-  var simplifiedStatus : SimpleAuthorizationStatus {
-    switch self {
-    case .restricted, .denied:
-      return .denied
-    case .notDetermined:
-      return .unknown
-    case .authorizedAlways, .authorizedWhenInUse:
-      return .allowed
-    @unknown default:
-      return .unknown
+    /// Whether `CLLocationManager` is authorized in any way.
+    var isAuthorized: Bool? {
+        switch self {
+        case .restricted, .denied:
+            return false
+        case .authorizedAlways, .authorizedWhenInUse:
+            return true
+        default:
+            return nil
+        }
     }
-  }
 }

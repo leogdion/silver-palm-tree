@@ -1,46 +1,59 @@
 import Combine
 import CoreLocation
 
-public class CLLocationManagerPublicist: NSObject, CLLocationManagerCombineDelegate {
-  let authorizationSubject = PassthroughSubject<CLAuthorizationStatus, Never>()
+/// Implements the publishers needed to manage a `CLLocationManager`.
+class CLLocationManagerPublicist: NSObject, CLLocationManagerCombineDelegate {
+    let authorizationSubject = PassthroughSubject<CLAuthorizationStatus, Never>()
 
-  let locationSubject = PassthroughSubject<[CLLocation], Never>()
-  
-  let errorSubject = PassthroughSubject<Error, Never>()
+    let locationSubject = PassthroughSubject<[CLLocation], Never>()
 
-  public let authorizationPublisher: AnyPublisher<CLAuthorizationStatus, Never>
+    let errorSubject = PassthroughSubject<Error, Never>()
 
-  public let locationPublisher: AnyPublisher<[CLLocation], Never>
-  
-  public let errorPublisher: AnyPublisher<Error, Never>
-  
-  public let manager : CLLocationManager
+    //  Publishes `CLAuthorizationStatus` changes.
+    public let authorizationPublisher: AnyPublisher<CLAuthorizationStatus, Never>
 
-  public init(manager : CLLocationManager) {
-    self.manager = manager
-    
-    authorizationPublisher = Just(.notDetermined)
-      .merge(with:
-        authorizationSubject
-      ).eraseToAnyPublisher()
+    /// Publishes `CLLocation` updates.
+    public let locationPublisher: AnyPublisher<[CLLocation], Never>
 
-    locationPublisher = locationSubject.eraseToAnyPublisher()
-    errorPublisher = errorSubject.eraseToAnyPublisher()
-    super.init()
-    
-    self.manager.delegate = self
-    self.manager.startUpdatingLocation()
-  }
+    /// Publishes `Error` as received from the `CLLocationManager`.
+    public let errorPublisher: AnyPublisher<Error, Never>
 
-  public func locationManager(_: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    locationSubject.send(locations)
-  }
+    let manager: CLLocationManager
 
-  public func locationManager(_: CLLocationManager, didFailWithError error: Error) {
-    self.errorSubject.send(error)
-  }
+    /// Gets the error state if any of the `CLLocationManager`.
+    public var managerError: LocationManagerError? {
+        return manager.error
+    }
 
-  public func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-    authorizationSubject.send(manager.authorizationStatus)
-  }
+    /// Create a Publisict which providers publsihers from the `CLLocationManager`
+    /// - Parameter manager: the CLLocationManager
+    public init(manager: CLLocationManager) {
+        self.manager = manager
+
+        // start with `notDeterminded` then just listen the `authorizationSubject`
+        authorizationPublisher = Just(.notDetermined)
+            .merge(with:
+                authorizationSubject).eraseToAnyPublisher()
+
+        locationPublisher = locationSubject.eraseToAnyPublisher()
+        errorPublisher = errorSubject.eraseToAnyPublisher()
+        super.init()
+
+        // set the delegate
+        self.manager.delegate = self
+        // start updating location right away
+        self.manager.startUpdatingLocation()
+    }
+
+    public func locationManager(_: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        locationSubject.send(locations)
+    }
+
+    public func locationManager(_: CLLocationManager, didFailWithError error: Error) {
+        errorSubject.send(error)
+    }
+
+    public func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        authorizationSubject.send(manager.authorizationStatus)
+    }
 }
