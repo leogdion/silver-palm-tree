@@ -16,45 +16,63 @@ protocol Tracker {
   func subscriptionWasReceived<Value>(_ subscription: TrackableSubscription<Value>)
 }
 
+protocol AnyTrackablePublisher {
+  func subscriptionWillCancel<Value>(_ subscription: TrackableSubscription<Value>)
+}
 class TrackableSubscription<Value> : Subscription {
-  internal init(tracker: Tracker) {
-    self.tracker = tracker
+  let id : UUID
+  internal init(publisher: AnyTrackablePublisher) {
+    self.id = UUID()
+    self.publisher = publisher
   }
   
-  var tracker : Tracker?
+  var publisher : AnyTrackablePublisher?
   
   func request(_ demand: Subscribers.Demand) {
     
   }
   
   func cancel() {
-    self.tracker?.subscriptionWillCancel(self)
-    tracker = nil
+    self.publisher?.subscriptionWillCancel(self)
+    publisher = nil
   }
   
  
 }
 
 
-class TrackablePublisher<Value> : Publisher {
+class TrackablePublisher<Value> : Publisher, AnyTrackablePublisher {
   var tracker : Tracker?
   var cancellables = [AnyCancellable]()
+
+  //var cancellables = [UUID : AnyCancellable]()
+
   
   internal init() {
     self.subject = PassthroughSubject()
   }
   
   func receive<S>(subscriber: S) where S : Subscriber, Never == S.Failure, Value == S.Input {
-    
-    let subscription = TrackableSubscription<Value>(tracker: self.tracker!)
-    subject.send(subscription: subscription)
+    let subscription = TrackableSubscription<Value>(publisher: self)
+//    subscriber.receive(subscription: subscription)
+//    let cancellable = subject.sink { value in
+//      _ = subscriber.receive(value)
+//    }
+//    self.cancellables[subscription.id] = cancellable
     subscriber.receive(subscription: subscription)
+
     subject.sink { value in
       subscriber.receive(value)
     }.store(in: &cancellables)
     self.tracker?.subscriptionWasReceived(subscription)
   }
   
+  func subscriptionWillCancel<Value>(_ subscription: TrackableSubscription<Value>) {
+    self.tracker!.subscriptionWillCancel(subscription)
+//    self.cancellables[subscription.id]!.cancel()
+//    self.cancellables.removeValue(forKey: subscription.id)
+    
+  }
   
   func send(_ input: Value) {
     subject.send(input)
@@ -93,12 +111,15 @@ class CoreLocationManager : LocationManager {
   let provider : CoreLocationManagerProvider
 }
 class CoreLocationManagerProvider : NSObject, LocationManagerProvider, CLLocationManagerDelegate, Tracker {
-  
+  var observableObjectWillChangePublisher : ObservableObjectPublisher?
   @Published var counter : Int = 0 {
     didSet {
+      print("\(oldValue) => \(counter)")
       if oldValue == 0 && self.counter > 0 {
+        print("starting location updates")
         self.manager.startUpdatingLocation()
       } else if oldValue > 0 && self.counter == 0 {
+        print("stopping location updates")
         self.manager.stopUpdatingLocation()
       }
     }
@@ -155,14 +176,18 @@ class CoreLocationManagerProvider : NSObject, LocationManagerProvider, CLLocatio
   
   
   func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+    self.observableObjectWillChangePublisher?.send()
     self.authorizationSubject.send(manager.authorizationStatus)
   }
   
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    //print(locations)'
+    self.observableObjectWillChangePublisher?.send()
     self.locationSubject.send(locations)
   }
   
   func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    self.observableObjectWillChangePublisher?.send()
     self.errorSubject.send(error)
   }
 }
@@ -193,6 +218,8 @@ class Object : ObservableObject {
     
     self.provider.authorizationPublisher.assign(to: &self.$authorizationStatus)
     self.provider.$counter.assign(to: &self.$counter)
+    self.provider.observableObjectWillChangePublisher = self.objectWillChange
+    
   }
   
   func add () {
@@ -202,6 +229,7 @@ class Object : ObservableObject {
   
   func remove () {
     _ = locations.popLast()
+    
   }
   
   func requestAuthorization () {
@@ -222,7 +250,7 @@ class LocationData : Identifiable, ObservableObject {
     
     manager.errorPublisher.map{ $0 as Error? }.receive(on: DispatchQueue.main).assign(to: &self.$error)
     //manager.authorizationPublisher.assign(to: &self.$authorizationStatus)
-    manager.locationPublisher.map{ $0 as CLLocation? }.receive(on: DispatchQueue.main).assign(to: &self.$location)
+    manager.locationPublisher.map{ $0 as CLLocation? }.print().receive(on: DispatchQueue.main).assign(to: &self.$location)
   }
   
   let id : UUID
@@ -264,13 +292,12 @@ struct LocationView : View {
     })
   }
   
-  
-  
   var data : LocationData? {
     index.map{
       model.locations[$0]
     }
   }
+
   var body: some View {
     Text(data?.location?.description ?? "No Location")
   }
@@ -282,13 +309,14 @@ struct ContentView: View {
     var body: some View {
       NavigationView {
         List{
-        ForEach(self.model.locations) {
-          LocationView(id: $0.id)
+        ForEach(self.model.locations) { data in
+          Text(data.location.debugDescription)
         }
         }
 //        List(self.model.locations.keys, rowContent: { location in
 //          LocationView(id: location.id)
 //        })
+
             .padding().toolbar {
               ToolbarItem(placement: .navigationBarLeading) {
                 Button("\(model.authorizationStatus.description)") {
