@@ -15,8 +15,8 @@ class LocationData: Identifiable, ObservableObject {
     self.error = error
 
     if shouldUpdate {
-    manager.errorPublisher.map { $0 as Error? }.receive(on: DispatchQueue.main).assign(to: &$error)
-    manager.locationPublisher.map { $0 as CLLocation? }.receive(on: DispatchQueue.main).assign(to: &$location)
+      manager.errorPublisher.map { $0 as Error? }.receive(on: DispatchQueue.main).assign(to: &$error)
+      manager.locationPublisher.map { $0 as CLLocation? }.receive(on: DispatchQueue.main).assign(to: &$location)
     }
   }
 }

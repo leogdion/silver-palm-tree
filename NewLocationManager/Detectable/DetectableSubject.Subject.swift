@@ -4,13 +4,13 @@ import Foundation
 
 extension DetectableSubject {
   func send(completion: Subscribers.Completion<Never>) {
-    self.subject.send(completion: completion)
+    subject.send(completion: completion)
   }
-  
+
   func send(subscription: Subscription) {
-    self.subject.send(subscription: subscription)
+    subject.send(subscription: subscription)
   }
-  
+
   func send(_ input: Value) {
     subject.send(input)
   }
