@@ -43,9 +43,9 @@ class TrackableSubscription<Value> : Subscription {
 
 class TrackablePublisher<Value> : Publisher, AnyTrackablePublisher {
   var tracker : Tracker?
-  var cancellables = [AnyCancellable]()
+  
 
-  //var cancellables = [UUID : AnyCancellable]()
+  var cancellables = [UUID : AnyCancellable]()
 
   
   internal init() {
@@ -54,23 +54,21 @@ class TrackablePublisher<Value> : Publisher, AnyTrackablePublisher {
   
   func receive<S>(subscriber: S) where S : Subscriber, Never == S.Failure, Value == S.Input {
     let subscription = TrackableSubscription<Value>(publisher: self)
-//    subscriber.receive(subscription: subscription)
-//    let cancellable = subject.sink { value in
-//      _ = subscriber.receive(value)
-//    }
-//    self.cancellables[subscription.id] = cancellable
-    subscriber.receive(subscription: subscription)
 
+    subscriber.receive(subscription: subscription)
+    let cancellable =
     subject.sink { value in
-      subscriber.receive(value)
-    }.store(in: &cancellables)
+      subscription.request(subscriber.receive(value))
+      
+    }
+    self.cancellables[subscription.id] = cancellable
     self.tracker?.subscriptionWasReceived(subscription)
   }
   
   func subscriptionWillCancel<Value>(_ subscription: TrackableSubscription<Value>) {
     self.tracker!.subscriptionWillCancel(subscription)
-//    self.cancellables[subscription.id]!.cancel()
-//    self.cancellables.removeValue(forKey: subscription.id)
+    self.cancellables[subscription.id]!.cancel()
+    self.cancellables.removeValue(forKey: subscription.id)
     
   }
   
@@ -181,7 +179,7 @@ class CoreLocationManagerProvider : NSObject, LocationManagerProvider, CLLocatio
   }
   
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    //print(locations)'
+    
     self.observableObjectWillChangePublisher?.send()
     self.locationSubject.send(locations)
   }
