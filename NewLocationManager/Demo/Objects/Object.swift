@@ -2,9 +2,8 @@ import Combine
 import CoreLocation
 
 class Object: ObservableObject {
-  let provider: CoreLocationManagerProvider
-  @Published var locations: [LocationData]
-  @Published var counter: Int = 0
+  let provider: LocationManagerProvider
+  @Published var locations: [LocationData]  
   @Published var authorizationStatus: CLAuthorizationStatus = .notDetermined
 
   init(locations: [LocationData] = .init()) {
@@ -12,7 +11,6 @@ class Object: ObservableObject {
     self.locations = locations
 
     provider.authorizationPublisher.assign(to: &$authorizationStatus)
-    provider.$counter.assign(to: &$counter)
     provider.observableObjectWillChangePublisher = objectWillChange
   }
 

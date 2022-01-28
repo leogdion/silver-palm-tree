@@ -68,6 +68,35 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		B349353527A44362007643CD /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				B349351A27A43DB6007643CD /* CLAuthorizationStatus.swift */,
+				B349353727A443A5007643CD /* Objects */,
+				B349353627A44398007643CD /* Views */,
+			);
+			path = Demo;
+			sourceTree = "<group>";
+		};
+		B349353627A44398007643CD /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B349351C27A43DB6007643CD /* LocationView.swift */,
+				B3F3C7F327A313CA00FA56FF /* NewLocationManagerApp.swift */,
+				B3F3C7F527A313CA00FA56FF /* ContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		B349353727A443A5007643CD /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				B349351927A43DB6007643CD /* LocationData.swift */,
+				B349351E27A43DB6007643CD /* Object.swift */,
+			);
+			path = Objects;
+			sourceTree = "<group>";
+		};
 		B3F3C7E727A313CA00FA56FF = {
 			isa = PBXGroup;
 			children = (
@@ -89,20 +118,15 @@
 			children = (
 				B349352627A43DB6007643CD /* AnyTrackablePublisher.swift */,
 				B349351D27A43DB6007643CD /* Assets.xcassets */,
-				B349351A27A43DB6007643CD /* CLAuthorizationStatus.swift */,
 				B349351B27A43DB6007643CD /* CoreLocationManager.swift */,
 				B349352227A43DB6007643CD /* CoreLocationManagerProvider.swift */,
-				B349351927A43DB6007643CD /* LocationData.swift */,
+				B349353527A44362007643CD /* Demo */,
 				B349352027A43DB6007643CD /* LocationManager.swift */,
 				B349351F27A43DB6007643CD /* LocationManagerProvider.swift */,
-				B349351C27A43DB6007643CD /* LocationView.swift */,
-				B349351E27A43DB6007643CD /* Object.swift */,
 				B349352327A43DB6007643CD /* Preview Content */,
 				B349352527A43DB6007643CD /* TrackablePublisher.swift */,
 				B349351827A43DB6007643CD /* TrackableSubscription.swift */,
 				B349352127A43DB6007643CD /* Tracker.swift */,
-				B3F3C7F327A313CA00FA56FF /* NewLocationManagerApp.swift */,
-				B3F3C7F527A313CA00FA56FF /* ContentView.swift */,
 				B3F3C7F727A313CB00FA56FF /* Assets.xcassets */,
 				B3F3C7F927A313CB00FA56FF /* Preview Content */,
 			);

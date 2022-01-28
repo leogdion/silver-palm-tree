@@ -20,7 +20,7 @@ struct ContentView: View {
           }.disabled(model.authorizationStatus != .notDetermined)
         }
         ToolbarItemGroup(placement: .navigationBarTrailing) {
-          Text("\(self.model.counter)")
+          //Text("\(self.model.counter)")
           Button("Add") {
             model.add()
           }

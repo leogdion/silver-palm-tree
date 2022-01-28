@@ -1,7 +1,7 @@
 import Combine
 import CoreLocation
 
-class CoreLocationManagerProvider: NSObject, LocationManagerProvider, CLLocationManagerDelegate, Tracker {
+class CoreLocationManagerProvider: NSObject, LocationManagerProvider, CLLocationManagerDelegate, Tracker, LocationManagerPublicist {
   var observableObjectWillChangePublisher: ObservableObjectPublisher?
   @Published var counter: Int = 0 {
     didSet {

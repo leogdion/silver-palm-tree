@@ -12,9 +12,9 @@ class CoreLocationManager: LocationManager {
     ).eraseToAnyPublisher()
   }
 
-  internal init(provider: CoreLocationManagerProvider) {
+  internal init(provider: LocationManagerPublicist) {
     self.provider = provider
   }
 
-  let provider: CoreLocationManagerProvider
+  let provider: LocationManagerPublicist
 }
