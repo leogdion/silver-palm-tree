@@ -7,6 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B349352727A43DB6007643CD /* TrackableSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349351827A43DB6007643CD /* TrackableSubscription.swift */; };
+		B349352827A43DB6007643CD /* LocationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349351927A43DB6007643CD /* LocationData.swift */; };
+		B349352927A43DB6007643CD /* CLAuthorizationStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349351A27A43DB6007643CD /* CLAuthorizationStatus.swift */; };
+		B349352A27A43DB6007643CD /* CoreLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349351B27A43DB6007643CD /* CoreLocationManager.swift */; };
+		B349352B27A43DB6007643CD /* LocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349351C27A43DB6007643CD /* LocationView.swift */; };
+		B349352C27A43DB6007643CD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B349351D27A43DB6007643CD /* Assets.xcassets */; };
+		B349352D27A43DB6007643CD /* Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349351E27A43DB6007643CD /* Object.swift */; };
+		B349352E27A43DB6007643CD /* LocationManagerProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349351F27A43DB6007643CD /* LocationManagerProvider.swift */; };
+		B349352F27A43DB6007643CD /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349352027A43DB6007643CD /* LocationManager.swift */; };
+		B349353027A43DB6007643CD /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349352127A43DB6007643CD /* Tracker.swift */; };
+		B349353127A43DB6007643CD /* CoreLocationManagerProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349352227A43DB6007643CD /* CoreLocationManagerProvider.swift */; };
+		B349353227A43DB6007643CD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B349352427A43DB6007643CD /* Preview Assets.xcassets */; };
+		B349353327A43DB6007643CD /* TrackablePublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349352527A43DB6007643CD /* TrackablePublisher.swift */; };
+		B349353427A43DB6007643CD /* AnyTrackablePublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349352627A43DB6007643CD /* AnyTrackablePublisher.swift */; };
 		B3F3C7F427A313CA00FA56FF /* NewLocationManagerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F3C7F327A313CA00FA56FF /* NewLocationManagerApp.swift */; };
 		B3F3C7F627A313CA00FA56FF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F3C7F527A313CA00FA56FF /* ContentView.swift */; };
 		B3F3C7F827A313CB00FA56FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3F3C7F727A313CB00FA56FF /* Assets.xcassets */; };
@@ -14,6 +28,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B349351827A43DB6007643CD /* TrackableSubscription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackableSubscription.swift; sourceTree = "<group>"; };
+		B349351927A43DB6007643CD /* LocationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationData.swift; sourceTree = "<group>"; };
+		B349351A27A43DB6007643CD /* CLAuthorizationStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CLAuthorizationStatus.swift; sourceTree = "<group>"; };
+		B349351B27A43DB6007643CD /* CoreLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreLocationManager.swift; sourceTree = "<group>"; };
+		B349351C27A43DB6007643CD /* LocationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationView.swift; sourceTree = "<group>"; };
+		B349351D27A43DB6007643CD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B349351E27A43DB6007643CD /* Object.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Object.swift; sourceTree = "<group>"; };
+		B349351F27A43DB6007643CD /* LocationManagerProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManagerProvider.swift; sourceTree = "<group>"; };
+		B349352027A43DB6007643CD /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		B349352127A43DB6007643CD /* Tracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
+		B349352227A43DB6007643CD /* CoreLocationManagerProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreLocationManagerProvider.swift; sourceTree = "<group>"; };
+		B349352427A43DB6007643CD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		B349352527A43DB6007643CD /* TrackablePublisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackablePublisher.swift; sourceTree = "<group>"; };
+		B349352627A43DB6007643CD /* AnyTrackablePublisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyTrackablePublisher.swift; sourceTree = "<group>"; };
 		B3F3C7F027A313CA00FA56FF /* NewLocationManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewLocationManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3F3C7F327A313CA00FA56FF /* NewLocationManagerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLocationManagerApp.swift; sourceTree = "<group>"; };
 		B3F3C7F527A313CA00FA56FF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -32,6 +60,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B349352327A43DB6007643CD /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				B349352427A43DB6007643CD /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
 		B3F3C7E727A313CA00FA56FF = {
 			isa = PBXGroup;
 			children = (
@@ -51,6 +87,20 @@
 		B3F3C7F227A313CA00FA56FF /* NewLocationManager */ = {
 			isa = PBXGroup;
 			children = (
+				B349352627A43DB6007643CD /* AnyTrackablePublisher.swift */,
+				B349351D27A43DB6007643CD /* Assets.xcassets */,
+				B349351A27A43DB6007643CD /* CLAuthorizationStatus.swift */,
+				B349351B27A43DB6007643CD /* CoreLocationManager.swift */,
+				B349352227A43DB6007643CD /* CoreLocationManagerProvider.swift */,
+				B349351927A43DB6007643CD /* LocationData.swift */,
+				B349352027A43DB6007643CD /* LocationManager.swift */,
+				B349351F27A43DB6007643CD /* LocationManagerProvider.swift */,
+				B349351C27A43DB6007643CD /* LocationView.swift */,
+				B349351E27A43DB6007643CD /* Object.swift */,
+				B349352327A43DB6007643CD /* Preview Content */,
+				B349352527A43DB6007643CD /* TrackablePublisher.swift */,
+				B349351827A43DB6007643CD /* TrackableSubscription.swift */,
+				B349352127A43DB6007643CD /* Tracker.swift */,
 				B3F3C7F327A313CA00FA56FF /* NewLocationManagerApp.swift */,
 				B3F3C7F527A313CA00FA56FF /* ContentView.swift */,
 				B3F3C7F727A313CB00FA56FF /* Assets.xcassets */,
@@ -125,7 +175,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B349353227A43DB6007643CD /* Preview Assets.xcassets in Resources */,
 				B3F3C7FB27A313CB00FA56FF /* Preview Assets.xcassets in Resources */,
+				B349352C27A43DB6007643CD /* Assets.xcassets in Resources */,
 				B3F3C7F827A313CB00FA56FF /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -137,8 +189,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B349353127A43DB6007643CD /* CoreLocationManagerProvider.swift in Sources */,
+				B349352827A43DB6007643CD /* LocationData.swift in Sources */,
 				B3F3C7F627A313CA00FA56FF /* ContentView.swift in Sources */,
+				B349352F27A43DB6007643CD /* LocationManager.swift in Sources */,
 				B3F3C7F427A313CA00FA56FF /* NewLocationManagerApp.swift in Sources */,
+				B349353427A43DB6007643CD /* AnyTrackablePublisher.swift in Sources */,
+				B349352927A43DB6007643CD /* CLAuthorizationStatus.swift in Sources */,
+				B349352B27A43DB6007643CD /* LocationView.swift in Sources */,
+				B349353027A43DB6007643CD /* Tracker.swift in Sources */,
+				B349352727A43DB6007643CD /* TrackableSubscription.swift in Sources */,
+				B349352D27A43DB6007643CD /* Object.swift in Sources */,
+				B349352E27A43DB6007643CD /* LocationManagerProvider.swift in Sources */,
+				B349353327A43DB6007643CD /* TrackablePublisher.swift in Sources */,
+				B349352A27A43DB6007643CD /* CoreLocationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
