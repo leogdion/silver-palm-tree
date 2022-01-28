@@ -131,6 +131,7 @@
 				B349354327A4682C007643CD /* DetectableSubject.SubscriptionDetector.swift */,
 				B349351827A43DB6007643CD /* DetectableSubscription.swift */,
 				B349352127A43DB6007643CD /* SubjectDetector.swift */,
+				B349352627A43DB6007643CD /* SubscriptionDetector.swift */,
 			);
 			path = Detectable;
 			sourceTree = "<group>";
@@ -142,6 +143,16 @@
 				B349354027A462CB007643CD /* CoreLocationManagerProvider */,
 			);
 			path = CoreLocation;
+			sourceTree = "<group>";
+		};
+		B37C2D9627A46C0500C23318 /* LocationProvider */ = {
+			isa = PBXGroup;
+			children = (
+				B349352027A43DB6007643CD /* LocationManager.swift */,
+				B349351F27A43DB6007643CD /* LocationManagerProvider.swift */,
+				B349354127A464EC007643CD /* LocationManagerPublicist.swift */,
+			);
+			path = LocationProvider;
 			sourceTree = "<group>";
 		};
 		B3F3C7E727A313CA00FA56FF = {
@@ -163,13 +174,10 @@
 		B3F3C7F227A313CA00FA56FF /* NewLocationManager */ = {
 			isa = PBXGroup;
 			children = (
-				B349352627A43DB6007643CD /* SubscriptionDetector.swift */,
 				B349351D27A43DB6007643CD /* Assets.xcassets */,
 				B349354827A4692F007643CD /* CoreLocation */,
 				B349353527A44362007643CD /* Demo */,
-				B349352027A43DB6007643CD /* LocationManager.swift */,
-				B349351F27A43DB6007643CD /* LocationManagerProvider.swift */,
-				B349354127A464EC007643CD /* LocationManagerPublicist.swift */,
+				B37C2D9627A46C0500C23318 /* LocationProvider */,
 				B349352327A43DB6007643CD /* Preview Content */,
 				B349354727A468C0007643CD /* Detectable */,
 				B3F3C7F727A313CB00FA56FF /* Assets.xcassets */,

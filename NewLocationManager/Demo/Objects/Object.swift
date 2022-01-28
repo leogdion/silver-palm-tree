@@ -14,9 +14,9 @@ class Object: ObservableObject {
     provider.observableObjectWillChangePublisher = objectWillChange
   }
 
-  func add() {
+  func add(withUpdates shouldUpdate: Bool) {
     let manager = provider.createManager()
-    locations.append(.init(manager: manager))
+    locations.append(.init(manager: manager, location: provider.lastLocation, shouldUpdate: shouldUpdate))
   }
 
   func remove() {

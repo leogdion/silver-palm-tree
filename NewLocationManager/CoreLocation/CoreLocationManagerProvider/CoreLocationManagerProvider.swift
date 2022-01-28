@@ -2,33 +2,38 @@ import Combine
 import CoreLocation
 
 class CoreLocationManagerProvider: NSObject, LocationManagerProvider, CLLocationManagerDelegate, SubjectDetector, LocationManagerPublicist {
-  
   var cancellables = [AnyCancellable]()
+  let manager: CLLocationManager
+  
+  let authorizationSubject = PassthroughSubject<CLAuthorizationStatus, Never>()
+  let locationSubject = DetectableSubject<[CLLocation]>()
+  let errorSubject = DetectableSubject<Error>()
+  
   var lastLocation : CLLocation?
   var lastError : Error?
   
-  let manager: CLLocationManager
-
-  let authorizationSubject = PassthroughSubject<CLAuthorizationStatus, Never>()
-
-  let locationSubject = DetectableSubject<[CLLocation]>()
-
-  let errorSubject = DetectableSubject<Error>()
+  var observableObjectWillChangePublisher: ObservableObjectPublisher?
+  
+  static let minimumCounterForLocationUpdates = 3
 
   var counter: Int = 0 {
     didSet {
-      print("\(oldValue) => \(counter)")
-      if oldValue == 0, counter > 0 {
+      let didStartLocationUpdates = oldValue >= Self.minimumCounterForLocationUpdates
+      let shouldStartLocationUpdates = self.counter >= Self.minimumCounterForLocationUpdates
+      
+      guard didStartLocationUpdates != shouldStartLocationUpdates else {
+        return
+      }
+      
+      if shouldStartLocationUpdates {
         print("starting location updates")
-        manager.startUpdatingLocation()
-      } else if oldValue > 0, counter == 0 {
+        self.manager.startUpdatingLocation()
+      } else {
         print("stopping location updates")
-        manager.stopUpdatingLocation()
+        self.manager.stopUpdatingLocation()
       }
     }
   }
-
-  var observableObjectWillChangePublisher: ObservableObjectPublisher?
 
   override internal init() {
     let manager = CLLocationManager()
