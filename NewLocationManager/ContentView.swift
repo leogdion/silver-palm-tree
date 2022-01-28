@@ -21,17 +21,18 @@ class TrackableSubscription<Value> : Subscription {
     self.tracker = tracker
   }
   
-  let tracker : Tracker
+  var tracker : Tracker?
   
   func request(_ demand: Subscribers.Demand) {
     
   }
   
   func cancel() {
-    self.tracker.subscriptionWillCancel(self)
+    self.tracker?.subscriptionWillCancel(self)
+    tracker = nil
   }
   
-  
+ 
 }
 
 
@@ -43,11 +44,18 @@ class TrackablePublisher<Value> : Publisher {
   }
   
   func receive<S>(subscriber: S) where S : Subscriber, Never == S.Failure, Value == S.Input {
+    
     let subscription = TrackableSubscription<Value>(tracker: self.tracker!)
+    subject.send(subscription: subscription)
     subscriber.receive(subscription: subscription)
+    
     self.tracker?.subscriptionWasReceived(subscription)
   }
   
+  
+  func send(_ input: Value) {
+    subject.send(input)
+  }
 
   
   typealias Output = Value
@@ -63,9 +71,6 @@ class CoreLocationManager : LocationManager {
     provider.errorPublisher
   }
   
-  var authorizationPublisher: AnyPublisher<CLAuthorizationStatus, Never> {
-    return provider.authorizationPublisher
-  }
   
   var locationPublisher: AnyPublisher<CLLocation, Never> {
     return provider.locationPublisher.flatMap(
@@ -102,11 +107,15 @@ class CoreLocationManagerProvider : NSObject, LocationManagerProvider, CLLocatio
   func subscriptionWillCancel<Value>(_ subscription: TrackableSubscription<Value>) {
     counter -= 1
   }
+  
+  func requestAuthorization () {
+    self.manager.requestWhenInUseAuthorization()
+  }
   internal override init() {
     let manager = CLLocationManager()
     self.manager = manager
     
-    authorizationPublisher = Just(.notDetermined)
+    authorizationPublisher = Just(manager.authorizationStatus)
       .merge(with:
         authorizationSubject
       ).eraseToAnyPublisher()
@@ -117,7 +126,6 @@ class CoreLocationManagerProvider : NSObject, LocationManagerProvider, CLLocatio
     super.init()
     
     manager.delegate = self
-    self.authorizationSubject.tracker = self
     self.locationSubject.tracker = self
     self.errorSubject.tracker = self
     
@@ -136,18 +144,27 @@ class CoreLocationManagerProvider : NSObject, LocationManagerProvider, CLLocatio
     return CoreLocationManager(provider: self)
   }
   
-  let authorizationSubject = TrackablePublisher<CLAuthorizationStatus>()
+  let authorizationSubject = PassthroughSubject<CLAuthorizationStatus, Never>()
 
   let locationSubject = TrackablePublisher<[CLLocation]>()
   
   let errorSubject = TrackablePublisher<Error>()
   
   
+  func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+    self.authorizationSubject.send(manager.authorizationStatus)
+  }
   
+  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    self.locationSubject.send(locations)
+  }
+  
+  func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    self.errorSubject.send(error)
+  }
 }
 protocol LocationManager {
   var errorPublisher : AnyPublisher<Error, Never> { get }
-    var authorizationPublisher: AnyPublisher<CLAuthorizationStatus, Never> { get }
       var locationPublisher: AnyPublisher<CLLocation, Never> { get }
 }
 
@@ -164,11 +181,14 @@ class Object : ObservableObject {
   let provider : CoreLocationManagerProvider
   @Published var locations : [LocationData]
   @Published var counter : Int = 0
+  @Published var authorizationStatus : CLAuthorizationStatus = .notDetermined
   
   init (locations : [LocationData] = .init()) {
     self.provider = CoreLocationManagerProvider()
     self.locations = locations
     
+    
+    self.provider.authorizationPublisher.assign(to: &self.$authorizationStatus)
     self.provider.$counter.assign(to: &self.$counter)
   }
   
@@ -180,31 +200,53 @@ class Object : ObservableObject {
   func remove () {
     _ = locations.popLast()
   }
+  
+  func requestAuthorization () {
+    self.provider.requestAuthorization()
+  }
 }
 
 class LocationData : Identifiable, ObservableObject {
 //  static func forPreview(withLocation location: CLLocation) -> LocationData {
 //    return .init(manager: MockLocationManager(), location: location)
 //  }
-  internal init(manager: LocationManager, id: UUID = .init(), authorizationStatus: CLAuthorizationStatus = .notDetermined, location : CLLocation? = nil, error : Error? = nil) {
+  internal init(manager: LocationManager, id: UUID = .init(), location : CLLocation? = nil, error : Error? = nil) {
     self.id = id
     self.manager = manager
     self.location = location
-    self.authorizationStatus = authorizationStatus
+    //self.authorizationStatus = authorizationStatus
     self.error = error
     
-    manager.errorPublisher.map{ $0 as Error? }.assign(to: &self.$error)
-    manager.authorizationPublisher.assign(to: &self.$authorizationStatus)
-    manager.locationPublisher.map{ $0 as CLLocation? }.assign(to: &self.$location)
+    manager.errorPublisher.map{ $0 as Error? }.receive(on: DispatchQueue.main).assign(to: &self.$error)
+    //manager.authorizationPublisher.assign(to: &self.$authorizationStatus)
+    manager.locationPublisher.map{ $0 as CLLocation? }.receive(on: DispatchQueue.main).assign(to: &self.$location)
   }
   
   let id : UUID
   let manager : LocationManager
-  @Published var authorizationStatus : CLAuthorizationStatus = .notDetermined
+  //@Published var authorizationStatus : CLAuthorizationStatus = .notDetermined
   @Published var location : CLLocation?
   @Published var error : Error?
 }
 
+extension CLAuthorizationStatus: CustomStringConvertible {
+  public var description: String {
+    switch self {
+    case .authorizedAlways:
+      return "Always"
+    case .authorizedWhenInUse:
+      return "When In Use"
+    case .denied:
+      return "Denied"
+    case .notDetermined:
+      return "Not Determined"
+    case .restricted:
+      return "Restricted"
+    @unknown default:
+      return "🤷‍♂️"
+    }
+  }
+}
 struct ContentView: View {
   @EnvironmentObject var model : Object
     var body: some View {
@@ -213,6 +255,14 @@ struct ContentView: View {
           Text(location.location?.description ?? "No Location")
         })
             .padding().toolbar {
+              ToolbarItem(placement: .navigationBarLeading) {
+                Button("\(model.authorizationStatus.description)") {
+                  DispatchQueue.main.async {
+                    self.model.requestAuthorization()
+                    
+                  }
+                }.disabled(model.authorizationStatus != .notDetermined)
+              }
               ToolbarItemGroup(placement: .navigationBarTrailing){
                 Text("\(self.model.counter)")
                 Button("Add") {
