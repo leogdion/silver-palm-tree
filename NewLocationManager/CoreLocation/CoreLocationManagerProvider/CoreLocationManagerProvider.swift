@@ -2,6 +2,11 @@ import Combine
 import CoreLocation
 
 class CoreLocationManagerProvider: NSObject, LocationManagerProvider, CLLocationManagerDelegate, SubjectDetector, LocationManagerPublicist {
+  
+  var cancellables = [AnyCancellable]()
+  var lastLocation : CLLocation?
+  var lastError : Error?
+  
   let manager: CLLocationManager
 
   let authorizationSubject = PassthroughSubject<CLAuthorizationStatus, Never>()
@@ -34,5 +39,8 @@ class CoreLocationManagerProvider: NSObject, LocationManagerProvider, CLLocation
     manager.delegate = self
     locationSubject.tracker = self
     errorSubject.tracker = self
+    
+    locationSubject.map{$0.last}.assign(to: \.lastLocation, on: self).store(in: &self.cancellables)
+    errorSubject.map{$0 as Error?}.assign(to: \.lastError, on: self).store(in: &self.cancellables)
   }
 }

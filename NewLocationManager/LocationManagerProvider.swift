@@ -7,4 +7,7 @@ protocol LocationManagerProvider: AnyObject {
 
   var observableObjectWillChangePublisher: ObservableObjectPublisher? { get set }
   func requestAuthorization()
+  
+  var lastLocation : CLLocation?  {get }
+  var lastError : Error? {get }
 }
