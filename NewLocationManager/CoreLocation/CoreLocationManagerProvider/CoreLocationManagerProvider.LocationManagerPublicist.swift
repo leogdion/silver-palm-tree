@@ -1,7 +1,7 @@
 import Combine
 import CoreLocation
 
-public extension CoreLocationManagerProvider {
+extension CoreLocationManagerProvider {
   var errorPublisher: AnyPublisher<Error, Never> {
     errorSubject.eraseToAnyPublisher()
   }

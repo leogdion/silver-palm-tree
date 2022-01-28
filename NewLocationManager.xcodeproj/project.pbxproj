@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B349352727A43DB6007643CD /* TrackableSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349351827A43DB6007643CD /* TrackableSubscription.swift */; };
+		B349352727A43DB6007643CD /* DetectableSubscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349351827A43DB6007643CD /* DetectableSubscription.swift */; };
 		B349352827A43DB6007643CD /* LocationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349351927A43DB6007643CD /* LocationData.swift */; };
 		B349352927A43DB6007643CD /* CLAuthorizationStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349351A27A43DB6007643CD /* CLAuthorizationStatus.swift */; };
 		B349352A27A43DB6007643CD /* CoreLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349351B27A43DB6007643CD /* CoreLocationManager.swift */; };
@@ -16,16 +16,18 @@
 		B349352D27A43DB6007643CD /* Object.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349351E27A43DB6007643CD /* Object.swift */; };
 		B349352E27A43DB6007643CD /* LocationManagerProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349351F27A43DB6007643CD /* LocationManagerProvider.swift */; };
 		B349352F27A43DB6007643CD /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349352027A43DB6007643CD /* LocationManager.swift */; };
-		B349353027A43DB6007643CD /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349352127A43DB6007643CD /* Tracker.swift */; };
+		B349353027A43DB6007643CD /* SubjectDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349352127A43DB6007643CD /* SubjectDetector.swift */; };
 		B349353127A43DB6007643CD /* CoreLocationManagerProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349352227A43DB6007643CD /* CoreLocationManagerProvider.swift */; };
 		B349353227A43DB6007643CD /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B349352427A43DB6007643CD /* Preview Assets.xcassets */; };
-		B349353327A43DB6007643CD /* TrackablePublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349352527A43DB6007643CD /* TrackablePublisher.swift */; };
-		B349353427A43DB6007643CD /* AnyTrackablePublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349352627A43DB6007643CD /* AnyTrackablePublisher.swift */; };
+		B349353327A43DB6007643CD /* DetectableSubject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349352527A43DB6007643CD /* DetectableSubject.swift */; };
+		B349353427A43DB6007643CD /* SubscriptionDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349352627A43DB6007643CD /* SubscriptionDetector.swift */; };
 		B349353C27A46120007643CD /* CoreLocationManagerProvider.CLLocationManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349353827A46120007643CD /* CoreLocationManagerProvider.CLLocationManagerDelegate.swift */; };
 		B349353D27A46120007643CD /* CoreLocationManagerProvider.Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349353927A46120007643CD /* CoreLocationManagerProvider.Tracker.swift */; };
 		B349353E27A46120007643CD /* CoreLocationManagerProvider.LocationManagerProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349353A27A46120007643CD /* CoreLocationManagerProvider.LocationManagerProvider.swift */; };
 		B349353F27A46120007643CD /* CoreLocationManagerProvider.LocationManagerPublicist.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349353B27A46120007643CD /* CoreLocationManagerProvider.LocationManagerPublicist.swift */; };
 		B349354227A464EC007643CD /* LocationManagerPublicist.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349354127A464EC007643CD /* LocationManagerPublicist.swift */; };
+		B349354527A4682C007643CD /* DetectableSubject.SubscriptionDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349354327A4682C007643CD /* DetectableSubject.SubscriptionDetector.swift */; };
+		B349354627A4682C007643CD /* DetectableSubject.Subject.swift in Sources */ = {isa = PBXBuildFile; fileRef = B349354427A4682C007643CD /* DetectableSubject.Subject.swift */; };
 		B3F3C7F427A313CA00FA56FF /* NewLocationManagerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F3C7F327A313CA00FA56FF /* NewLocationManagerApp.swift */; };
 		B3F3C7F627A313CA00FA56FF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F3C7F527A313CA00FA56FF /* ContentView.swift */; };
 		B3F3C7F827A313CB00FA56FF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3F3C7F727A313CB00FA56FF /* Assets.xcassets */; };
@@ -33,7 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		B349351827A43DB6007643CD /* TrackableSubscription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackableSubscription.swift; sourceTree = "<group>"; };
+		B349351827A43DB6007643CD /* DetectableSubscription.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetectableSubscription.swift; sourceTree = "<group>"; };
 		B349351927A43DB6007643CD /* LocationData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationData.swift; sourceTree = "<group>"; };
 		B349351A27A43DB6007643CD /* CLAuthorizationStatus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CLAuthorizationStatus.swift; sourceTree = "<group>"; };
 		B349351B27A43DB6007643CD /* CoreLocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreLocationManager.swift; sourceTree = "<group>"; };
@@ -42,16 +44,18 @@
 		B349351E27A43DB6007643CD /* Object.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Object.swift; sourceTree = "<group>"; };
 		B349351F27A43DB6007643CD /* LocationManagerProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManagerProvider.swift; sourceTree = "<group>"; };
 		B349352027A43DB6007643CD /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
-		B349352127A43DB6007643CD /* Tracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
+		B349352127A43DB6007643CD /* SubjectDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubjectDetector.swift; sourceTree = "<group>"; };
 		B349352227A43DB6007643CD /* CoreLocationManagerProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreLocationManagerProvider.swift; sourceTree = "<group>"; };
 		B349352427A43DB6007643CD /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		B349352527A43DB6007643CD /* TrackablePublisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackablePublisher.swift; sourceTree = "<group>"; };
-		B349352627A43DB6007643CD /* AnyTrackablePublisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyTrackablePublisher.swift; sourceTree = "<group>"; };
+		B349352527A43DB6007643CD /* DetectableSubject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetectableSubject.swift; sourceTree = "<group>"; };
+		B349352627A43DB6007643CD /* SubscriptionDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscriptionDetector.swift; sourceTree = "<group>"; };
 		B349353827A46120007643CD /* CoreLocationManagerProvider.CLLocationManagerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreLocationManagerProvider.CLLocationManagerDelegate.swift; sourceTree = "<group>"; };
 		B349353927A46120007643CD /* CoreLocationManagerProvider.Tracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreLocationManagerProvider.Tracker.swift; sourceTree = "<group>"; };
 		B349353A27A46120007643CD /* CoreLocationManagerProvider.LocationManagerProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreLocationManagerProvider.LocationManagerProvider.swift; sourceTree = "<group>"; };
 		B349353B27A46120007643CD /* CoreLocationManagerProvider.LocationManagerPublicist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreLocationManagerProvider.LocationManagerPublicist.swift; sourceTree = "<group>"; };
 		B349354127A464EC007643CD /* LocationManagerPublicist.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManagerPublicist.swift; sourceTree = "<group>"; };
+		B349354327A4682C007643CD /* DetectableSubject.SubscriptionDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetectableSubject.SubscriptionDetector.swift; sourceTree = "<group>"; };
+		B349354427A4682C007643CD /* DetectableSubject.Subject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetectableSubject.Subject.swift; sourceTree = "<group>"; };
 		B3F3C7F027A313CA00FA56FF /* NewLocationManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewLocationManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3F3C7F327A313CA00FA56FF /* NewLocationManagerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLocationManagerApp.swift; sourceTree = "<group>"; };
 		B3F3C7F527A313CA00FA56FF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -119,6 +123,27 @@
 			path = CoreLocationManagerProvider;
 			sourceTree = "<group>";
 		};
+		B349354727A468C0007643CD /* Detectable */ = {
+			isa = PBXGroup;
+			children = (
+				B349352527A43DB6007643CD /* DetectableSubject.swift */,
+				B349354427A4682C007643CD /* DetectableSubject.Subject.swift */,
+				B349354327A4682C007643CD /* DetectableSubject.SubscriptionDetector.swift */,
+				B349351827A43DB6007643CD /* DetectableSubscription.swift */,
+				B349352127A43DB6007643CD /* SubjectDetector.swift */,
+			);
+			path = Detectable;
+			sourceTree = "<group>";
+		};
+		B349354827A4692F007643CD /* CoreLocation */ = {
+			isa = PBXGroup;
+			children = (
+				B349351B27A43DB6007643CD /* CoreLocationManager.swift */,
+				B349354027A462CB007643CD /* CoreLocationManagerProvider */,
+			);
+			path = CoreLocation;
+			sourceTree = "<group>";
+		};
 		B3F3C7E727A313CA00FA56FF = {
 			isa = PBXGroup;
 			children = (
@@ -138,18 +163,15 @@
 		B3F3C7F227A313CA00FA56FF /* NewLocationManager */ = {
 			isa = PBXGroup;
 			children = (
-				B349352627A43DB6007643CD /* AnyTrackablePublisher.swift */,
+				B349352627A43DB6007643CD /* SubscriptionDetector.swift */,
 				B349351D27A43DB6007643CD /* Assets.xcassets */,
-				B349351B27A43DB6007643CD /* CoreLocationManager.swift */,
-				B349354027A462CB007643CD /* CoreLocationManagerProvider */,
+				B349354827A4692F007643CD /* CoreLocation */,
 				B349353527A44362007643CD /* Demo */,
 				B349352027A43DB6007643CD /* LocationManager.swift */,
 				B349351F27A43DB6007643CD /* LocationManagerProvider.swift */,
 				B349354127A464EC007643CD /* LocationManagerPublicist.swift */,
 				B349352327A43DB6007643CD /* Preview Content */,
-				B349352527A43DB6007643CD /* TrackablePublisher.swift */,
-				B349351827A43DB6007643CD /* TrackableSubscription.swift */,
-				B349352127A43DB6007643CD /* Tracker.swift */,
+				B349354727A468C0007643CD /* Detectable */,
 				B3F3C7F727A313CB00FA56FF /* Assets.xcassets */,
 				B3F3C7F927A313CB00FA56FF /* Preview Content */,
 			);
@@ -245,16 +267,18 @@
 				B349353C27A46120007643CD /* CoreLocationManagerProvider.CLLocationManagerDelegate.swift in Sources */,
 				B3F3C7F427A313CA00FA56FF /* NewLocationManagerApp.swift in Sources */,
 				B349353E27A46120007643CD /* CoreLocationManagerProvider.LocationManagerProvider.swift in Sources */,
-				B349353427A43DB6007643CD /* AnyTrackablePublisher.swift in Sources */,
+				B349354527A4682C007643CD /* DetectableSubject.SubscriptionDetector.swift in Sources */,
+				B349353427A43DB6007643CD /* SubscriptionDetector.swift in Sources */,
 				B349352927A43DB6007643CD /* CLAuthorizationStatus.swift in Sources */,
 				B349352B27A43DB6007643CD /* LocationView.swift in Sources */,
-				B349353027A43DB6007643CD /* Tracker.swift in Sources */,
+				B349353027A43DB6007643CD /* SubjectDetector.swift in Sources */,
 				B349353D27A46120007643CD /* CoreLocationManagerProvider.Tracker.swift in Sources */,
-				B349352727A43DB6007643CD /* TrackableSubscription.swift in Sources */,
+				B349352727A43DB6007643CD /* DetectableSubscription.swift in Sources */,
 				B349352D27A43DB6007643CD /* Object.swift in Sources */,
 				B349352E27A43DB6007643CD /* LocationManagerProvider.swift in Sources */,
-				B349353327A43DB6007643CD /* TrackablePublisher.swift in Sources */,
+				B349353327A43DB6007643CD /* DetectableSubject.swift in Sources */,
 				B349352A27A43DB6007643CD /* CoreLocationManager.swift in Sources */,
+				B349354627A4682C007643CD /* DetectableSubject.Subject.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

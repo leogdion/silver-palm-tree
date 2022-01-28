@@ -1,14 +1,14 @@
 import Combine
 import CoreLocation
 
-class CoreLocationManagerProvider: NSObject, LocationManagerProvider, CLLocationManagerDelegate, Tracker, LocationManagerPublicist {
+class CoreLocationManagerProvider: NSObject, LocationManagerProvider, CLLocationManagerDelegate, SubjectDetector, LocationManagerPublicist {
   let manager: CLLocationManager
 
   let authorizationSubject = PassthroughSubject<CLAuthorizationStatus, Never>()
 
-  let locationSubject = TrackablePublisher<[CLLocation]>()
+  let locationSubject = DetectableSubject<[CLLocation]>()
 
-  let errorSubject = TrackablePublisher<Error>()
+  let errorSubject = DetectableSubject<Error>()
 
   var counter: Int = 0 {
     didSet {

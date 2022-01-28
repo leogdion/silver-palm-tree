@@ -1,14 +1,14 @@
 import Combine
 import Foundation
 
-class TrackableSubscription<Value>: Subscription {
+class DetectableSubscription<Value>: Subscription {
   let id: UUID
-  internal init(publisher: AnyTrackablePublisher) {
+  internal init(publisher: SubscriptionDetector) {
     id = UUID()
     self.publisher = publisher
   }
 
-  var publisher: AnyTrackablePublisher?
+  var publisher: SubscriptionDetector?
 
   func request(_: Subscribers.Demand) {}
 
