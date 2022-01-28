@@ -10,4 +10,5 @@ protocol LocationManagerProvider: AnyObject {
   
   var lastLocation : CLLocation?  {get }
   var lastError : Error? {get }
+  var authorizedStatus : CLAuthorizationStatus { get }
 }

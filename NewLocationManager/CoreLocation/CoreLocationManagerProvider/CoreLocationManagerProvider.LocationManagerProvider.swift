@@ -16,4 +16,8 @@ extension CoreLocationManagerProvider {
   func createManager() -> LocationManager {
     CoreLocationManager(provider: self)
   }
+  
+  var authorizedStatus: CLAuthorizationStatus {
+    self.authorizationSubject.value
+  }
 }

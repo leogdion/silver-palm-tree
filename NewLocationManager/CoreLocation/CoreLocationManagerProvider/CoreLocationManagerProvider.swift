@@ -5,7 +5,7 @@ class CoreLocationManagerProvider: NSObject, LocationManagerProvider, CLLocation
   var cancellables = [AnyCancellable]()
   let manager: CLLocationManager
   
-  let authorizationSubject = PassthroughSubject<CLAuthorizationStatus, Never>()
+  let authorizationSubject = CurrentValueSubject<CLAuthorizationStatus, Never>(CLAuthorizationStatus.notDetermined)
   let locationSubject = DetectableSubject<[CLLocation]>()
   let errorSubject = DetectableSubject<Error>()
   
