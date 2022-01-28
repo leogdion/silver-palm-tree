@@ -38,6 +38,7 @@ class TrackableSubscription<Value> : Subscription {
 
 class TrackablePublisher<Value> : Publisher {
   var tracker : Tracker?
+  var cancellables = [AnyCancellable]()
   
   internal init() {
     self.subject = PassthroughSubject()
@@ -48,7 +49,9 @@ class TrackablePublisher<Value> : Publisher {
     let subscription = TrackableSubscription<Value>(tracker: self.tracker!)
     subject.send(subscription: subscription)
     subscriber.receive(subscription: subscription)
-    
+    subject.sink { value in
+      subscriber.receive(value)
+    }.store(in: &cancellables)
     self.tracker?.subscriptionWasReceived(subscription)
   }
   
@@ -247,13 +250,45 @@ extension CLAuthorizationStatus: CustomStringConvertible {
     }
   }
 }
+
+struct LocationView : View {
+  internal init(id: UUID) {
+    self.id = id
+  }
+  
+  @EnvironmentObject var model : Object
+  let id : UUID
+  var index : Int? {
+   self.model.locations.firstIndex(where: {
+      $0.id == id
+    })
+  }
+  
+  
+  
+  var data : LocationData? {
+    index.map{
+      model.locations[$0]
+    }
+  }
+  var body: some View {
+    Text(data?.location?.description ?? "No Location")
+  }
+  
+  
+}
 struct ContentView: View {
   @EnvironmentObject var model : Object
     var body: some View {
       NavigationView {
-        List(self.model.locations, rowContent: { location in
-          Text(location.location?.description ?? "No Location")
-        })
+        List{
+        ForEach(self.model.locations) {
+          LocationView(id: $0.id)
+        }
+        }
+//        List(self.model.locations.keys, rowContent: { location in
+//          LocationView(id: location.id)
+//        })
             .padding().toolbar {
               ToolbarItem(placement: .navigationBarLeading) {
                 Button("\(model.authorizationStatus.description)") {
