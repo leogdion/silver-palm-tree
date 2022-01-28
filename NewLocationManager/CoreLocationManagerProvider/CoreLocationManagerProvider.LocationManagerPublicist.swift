@@ -1,13 +1,12 @@
 import Combine
 import CoreLocation
 
-extension CoreLocationManagerProvider {
-  
-  public var errorPublisher: AnyPublisher<Error, Never> {
-    return self.errorSubject.eraseToAnyPublisher()
+public extension CoreLocationManagerProvider {
+  var errorPublisher: AnyPublisher<Error, Never> {
+    errorSubject.eraseToAnyPublisher()
   }
 
-  public var locationPublisher: AnyPublisher<[CLLocation], Never> {
-    return self.locationSubject.eraseToAnyPublisher()
+  var locationPublisher: AnyPublisher<[CLLocation], Never> {
+    locationSubject.eraseToAnyPublisher()
   }
 }

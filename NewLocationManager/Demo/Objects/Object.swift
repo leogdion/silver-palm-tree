@@ -3,7 +3,7 @@ import CoreLocation
 
 class Object: ObservableObject {
   let provider: LocationManagerProvider
-  @Published var locations: [LocationData]  
+  @Published var locations: [LocationData]
   @Published var authorizationStatus: CLAuthorizationStatus = .notDetermined
 
   init(locations: [LocationData] = .init()) {

@@ -3,7 +3,6 @@ import CoreLocation
 import Foundation
 
 class LocationData: Identifiable, ObservableObject {
-  
   let id: UUID
   let manager: LocationManager
   @Published var location: CLLocation?
@@ -12,7 +11,7 @@ class LocationData: Identifiable, ObservableObject {
   internal init(manager: LocationManager, id: UUID = .init(), location: CLLocation? = nil, error: Error? = nil) {
     self.id = id
     self.manager = manager
-    self.location = location    
+    self.location = location
     self.error = error
 
     manager.errorPublisher.map { $0 as Error? }.receive(on: DispatchQueue.main).assign(to: &$error)

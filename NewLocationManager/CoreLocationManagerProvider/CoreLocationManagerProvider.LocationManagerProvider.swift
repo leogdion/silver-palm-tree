@@ -1,7 +1,7 @@
 import Combine
 import CoreLocation
 
-extension CoreLocationManagerProvider {  
+extension CoreLocationManagerProvider {
   public var authorizationPublisher: AnyPublisher<CLAuthorizationStatus, Never> {
     Just(manager.authorizationStatus)
       .merge(with:
@@ -13,7 +13,6 @@ extension CoreLocationManagerProvider {
     manager.requestWhenInUseAuthorization()
   }
 
-  
   func createManager() -> LocationManager {
     CoreLocationManager(provider: self)
   }

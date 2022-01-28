@@ -3,13 +3,13 @@ import CoreLocation
 
 class CoreLocationManagerProvider: NSObject, LocationManagerProvider, CLLocationManagerDelegate, Tracker, LocationManagerPublicist {
   let manager: CLLocationManager
-  
+
   let authorizationSubject = PassthroughSubject<CLAuthorizationStatus, Never>()
 
   let locationSubject = TrackablePublisher<[CLLocation]>()
 
   let errorSubject = TrackablePublisher<Error>()
-  
+
   var counter: Int = 0 {
     didSet {
       print("\(oldValue) => \(counter)")
@@ -22,9 +22,9 @@ class CoreLocationManagerProvider: NSObject, LocationManagerProvider, CLLocation
       }
     }
   }
-  
+
   var observableObjectWillChangePublisher: ObservableObjectPublisher?
-  
+
   override internal init() {
     let manager = CLLocationManager()
     self.manager = manager

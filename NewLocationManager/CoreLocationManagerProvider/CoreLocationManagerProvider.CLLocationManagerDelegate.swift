@@ -2,7 +2,6 @@ import Combine
 import CoreLocation
 
 extension CoreLocationManagerProvider {
-
   func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
     observableObjectWillChangePublisher?.send()
     authorizationSubject.send(manager.authorizationStatus)
@@ -17,5 +16,4 @@ extension CoreLocationManagerProvider {
     observableObjectWillChangePublisher?.send()
     errorSubject.send(error)
   }
-  
 }
